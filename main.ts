@@ -1,31 +1,20 @@
-let lampeAn = false
+let Blinken = 0
 let helligkeit2 = 0
-function abwechselndeLEDs () {
-    while (lampeAn) {
-        // Anpassen der Pause nach Bedarf
-        basic.pause(500)
-        // Wenn es dunkel ist, schalte die Lampe an P3 aus
-        pins.digitalWritePin(DigitalPin.P3, 1)
-        // Wenn es dunkel ist, schalte die Lampe an P4 aus
-        pins.digitalWritePin(DigitalPin.P4, 0)
-        // Anpassen der Pause nach Bedarf
-        basic.pause(500)
-        // Wenn es dunkel ist, schalte die Lampe an P4 aus
-        pins.digitalWritePin(DigitalPin.P4, 1)
-        // Wenn es dunkel ist, schalte die Lampe an P3 aus
-        pins.digitalWritePin(DigitalPin.P3, 0)
-    }
-}
 input.onButtonPressed(Button.A, function () {
-    if (lampeAn) {
-        lampeAn = false
-        // Wenn die Taste A gedrückt wird und lampeAn auf false gesetzt wird, schalte die Lampen aus
-        pins.digitalWritePin(DigitalPin.P3, 0)
-        pins.digitalWritePin(DigitalPin.P4, 0)
+    if (Blinken) {
+        Blinken = 0
     } else {
-        lampeAn = true
-        // Wenn die Taste A gedrückt wird und lampeAn auf true gesetzt wird, starte die Funktion abwechselndeLEDs
-        abwechselndeLEDs()
+        Blinken = 1
+    }
+})
+basic.forever(function () {
+    while (Blinken) {
+        pins.digitalWritePin(DigitalPin.P3, 0)
+        pins.digitalWritePin(DigitalPin.P4, 1)
+        basic.pause(200)
+        pins.digitalWritePin(DigitalPin.P3, 1)
+        pins.digitalWritePin(DigitalPin.P4, 0)
+        basic.pause(200)
     }
 })
 basic.forever(function () {
